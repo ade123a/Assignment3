@@ -6,18 +6,18 @@
     <title>Course View - LMS</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-<body class="course-view-body">
+<body>
     <header>
         <img src="logo.jpg" alt="LMS Logo" style="width: 100px; height: 100px;">
-        <h1>LMS - Learning Management System</h1> 
-        <!--<h2>LMS - Course View</h2> -->
+        <h1>LMS - Learning Management System</h1>
     </header>
     <div>
         <nav>
             <a href="index.html">Homepage</a>
         </nav>
     </div>
-    <main>
+    
+    <main class="courseview">
         <label for="term">Select Term:</label>
         <select id="term" name="term">
             <option value="Winter 2025">Winter 2025</option>
@@ -30,12 +30,12 @@
 			<!-- Courses in which the student is enrolled -->
             <!-- Display Course 1, 2, and 3 in the same line -->
             <h2>Enrolled Courses</h2>
-            
-            <table class="first">
-				<tr class="first-row">
+            <hr>
+            <table class="cv">
+				<tr>
 					<td>
 						<div>
-                            <img src="course1.jpg" alt="Course 1" width="250">
+                            <img src="course1.jpg" alt="Course 1">
                             <p>Course Name: Web Development</p>
                             <p>Course Code: WD381</p>
                             <a href="attempt_quiz.html">Attempt Quiz</a>
@@ -43,7 +43,7 @@
 					</td>
 					<td>
 						<div>
-                            <img src="course1.jpg" alt="Course 1" width="250">
+                            <img src="course1.jpg" alt="Course 1">
                             <p>Course Name: Data Structures</p>
                             <p>Course Code: DS371</p>
                             <a href="attempt_quiz.html">Attempt Quiz</a>
@@ -51,8 +51,8 @@
 					</td>
                     <td>
 						<div>
-                            <img src="course1.jpg" alt="Course 1" width="250">
-                            <p>Course Name: DBMS</p>
+                            <img src="course1.jpg" alt="Course 1">
+                            <p>Course Name: Database Systems</p>
                             <p>Course Code: DB346</p>
                             <a href="attempt_quiz.html">Attempt Quiz</a>
                         </div>
@@ -62,7 +62,7 @@
 				<tr>
 					<td>
 						<div>
-                            <img src="course1.jpg" alt="Course 1" width="250">
+                            <img src="course1.jpg" alt="Course 1">
                             <p>Course Name: Software Testing</p>
                             <p>Course Code: ST484</p>
                             <a href="attempt_quiz.html">Attempt Quiz</a>
@@ -70,7 +70,7 @@
 					</td>
 					<td>
 						<div>
-                            <img src="course1.jpg" alt="Course 1" width="250">
+                            <img src="course1.jpg" alt="Course 1">
                             <p>Course Name: Software Architectures</p>
                             <p>Course Code: SA396</p>
                             <a href="attempt_quiz.html">Attempt Quiz</a>
@@ -84,29 +84,29 @@
         </div>
         <br>
         <br>
-        <section class="Enrolled">
+        <section class="Pending">
 			<!-- Courses in which the student is enrolled -->
             <!-- Display Course 1, 2, and 3 in the same line -->
             <h2>Pending Invitations</h2>
             <hr>
-            <table class="second">
+            <table class="cv">
 				<tr>
 					<td>
-                        <div class="course-card">
-                            <img src="course2.jpg" alt="Course 2" width="250">
+                        <div>
+                            <img src="course2.jpg" alt="Course 2">
                             <p>Course Name: Data Science</p>
                             <p>Course Code: DS102</p>
-                            <button class="accept-button">Accept</button>
-                            <button class="decline-button">Decline</button>
+                            <button class="accept">Accept</button>
+                            <button class="decline">Decline</button>
                         </div>
                     </td> 
                     <td>
-                        <div class="course-card">
-                            <img src="course2.jpg" alt="Course 2" width="250">
+                        <div>
+                            <img src="course2.jpg" alt="Course 2">
                             <p>Course Name: Machine Learning</p>
                             <p>Course Code: ML105</p>
-                            <button class="accept-button">Accept</button>
-                            <button class="decline-button" >Decline</button>
+                            <button class="accept">Accept</button>
+                            <button class="decline">Decline</button>
                         </div>
                     </td> 
                 </tr>
