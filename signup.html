@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - LMS</title>
+    <title>Signup</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
     
     <main class="login">
         <h2>Signup</h2>
-        <form>
+        <form id="signupForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
             
@@ -31,18 +31,97 @@
             
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
+
+            <button class="signup-btn" type="submit" >Sign up</button><br>
             
-        </form> 
+        
         <br>
-        <br>  
-            <a href="course_view.html">
-                <button>Sign up</button>
-            </a><br><br>
-            <a href="#">Forgot Password?</a>
+            
         
     </main>
+    <br>
+    
+    </form> 
+    
+    <textarea name="feedback" id="feedbackBox"></textarea>
+
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function(event){
+        if (!validateForm()) {
+            event.preventDefault(); // Stop form submission if there are errors
+        }
+    });
+
+    const feedbackBox = document.getElementById("feedbackBox");
+    let errors = [];
+    feedbackBox.innerHTML = errors.join("<br>");
+
+
+    function validateName(){
+        let errors = [];
+        var name = document.getElementById("username").value;
+        var regex = /^[a-zA-Z0-9-_]+$/;
+        if (!regex.test(name)){
+            errors.push("Invalid username. Username should only contain alphanumeric characters, underscores, and dashes.");
+            return false;
+        }
+        if (name.length < 3 || name.length > 20){
+            errors.push("Invalid username. Username should be between 3 and 20 characters long.");
+        }
+        if (!/^[a-zA-Z]/.test(name.charAt(0)))
+        if (!/^[a-zA-Z]/.test(name.charAt(0))) {
+        }
+        return errors;
+    }
+
+    function validatePassword(){
+        let errors = [];
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm-password").value;
+         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*!])[A-Za-z\d@#$%&*!]{8,}$/;
+        if (!regex.test(password)) {
+           errors.push("Invalid password. Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+        } 
+        if (password !== confirm_password){
+            errors.push("Invalid password. Passwords do not match.");
+        }
+        return errors;
+    }
+
+    function validateEmail(){
+        let errors = [];
+        var email = document.getElementById("email").value;
+
+        let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|io|org|edu)$/;
+
+        if (!regex.test(email)) {
+            errors.push("Invalid email. Email should be in the format of <username>@<domain>.<tld>");
+        }
+            return errors;
+        }
+        return errors;
+    
+    function validateForm(){
+        let allErrors = [];
+
+        allErrors = allErrors.concat(validateName());
+        allErrors = allErrors.concat(validatePassword());
+        allErrors = allErrors.concat(validateEmail());
+
+        if (allErrors.length > 0) {
+            feedbackBox.value = allErrors.join("\n");
+            return false;
+        } else {
+            feedbackBox.value = " Signup successful! Redirecting...";
+            setTimeout(() => { window.location.href = "login.html"; }, 2000);
+            return true;
+        }
+    }
+</script>
+
+
 </body>
 </html>

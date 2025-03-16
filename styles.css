@@ -258,3 +258,32 @@ footer {
     padding: 10px;
     margin-top: 20px;
 }
+
+/*Signup*/
+.signup-btn{
+    background-color: #008000;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 10px;
+    opacity:0.5;
+}
+
+
+.signup-btn:hover {
+    background-color: #45A049;
+    opacity:1;
+}
+
+.error{
+    border: 1px solid black;
+}
+#feedbackBox{
+    width: 1300px;
+    margin: 0px 80px ;
+    border: 3px solid black;
+    text-align: center;
+}
