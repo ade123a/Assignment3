@@ -116,5 +116,43 @@
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Handle Course Enrollment
+            const pendingCourses = document.querySelectorAll(".Pending .cv td");
+            pendingCourses.forEach((course) => {
+                const acceptBtn = course.querySelector(".accept");
+                const declineBtn = course.querySelector(".decline");
+
+                acceptBtn.addEventListener("click", function () {
+                    moveToEnrolled(course);
+                });
+
+                declineBtn.addEventListener("click", function () {
+                    course.remove(); // Remove course if declined
+                });
+            });
+
+            function moveToEnrolled(course) {
+                const enrolledSection = document.querySelector(".Enrolled .cv");
+                enrolledSection.appendChild(course);
+                course.querySelector(".accept").remove();
+                course.querySelector(".decline").remove();
+            }
+
+            // Handle Hover Effect
+            const courseTiles = document.querySelectorAll(".course-tile");
+            courseTiles.forEach((tile) => {
+                tile.addEventListener("mouseover", function () {
+                    tile.style.backgroundColor = "#ffffff"; // Change on hover
+                });
+
+                tile.addEventListener("mouseout", function () {
+                    tile.style.backgroundColor = ""; // Reset background
+                });
+            });
+        });
+    </script>
 </body>
 </html>
