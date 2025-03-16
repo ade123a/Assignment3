@@ -57,5 +57,74 @@
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
+
+       <!-- ####################### JavaScript for Quiz Logic ####################### -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Timer Logic
+            let timeLeft = 600; // 10 minutes in seconds
+            const timerElement = document.getElementById("quiz-timer");
+            timerElement.textContent = formatTime(timeLeft);
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = formatTime(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert("Time's up! Redirecting to leaderboard...");
+                    window.location.href = "leaderboard.html";
+                }
+            }, 1000);
+
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = seconds % 60;
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
+
+            // Quiz Submission & Scoring Logic
+            document.getElementById("quiz-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                
+                let score = 0;
+                let q1Answered = false;
+                let q2Answered = false;
+
+                // Validate Q1
+                const q1Options = document.getElementsByName("q1");
+                for (let option of q1Options) {
+                    if (option.checked) {
+                        q1Answered = true;
+                        if (option.value === "Hyper Text Markup Language") {
+                            score += 50;
+                        }
+                    }
+                }
+
+                // Validate Q2
+                const q2Options = document.getElementsByName("q2");
+                let correctSelections = 0;
+                for (let option of q2Options) {
+                    if (option.checked) {
+                        q2Answered = true;
+                        if (option.value === "div" || option.value === "span") {
+                            correctSelections++;
+                        }
+                    }
+                }
+                score += correctSelections * 25; // +25 per correct selection
+
+                // Check if both questions were answered
+                if (!q1Answered || !q2Answered) {
+                    alert("Please answer all questions before submitting.");
+                    return;
+                }
+
+                // Display final score
+                document.getElementById("quiz-result").textContent = `Final Score: ${score}/100`;
+            });
+        });
+    </script>
+
 </body>
 </html>
