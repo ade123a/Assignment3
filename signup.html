@@ -41,7 +41,7 @@
     </main>
     <br>
     
-    <textarea name="feedback" id="feedbackBox"></textarea>
+    <div id="feedbackBox" class="feedback"></div>
 
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
@@ -51,6 +51,17 @@
     const feedbackBox = document.getElementById("feedbackBox");
     let errors = [];
     feedbackBox.innerHTML = errors.join("<br>");
+
+
+    function showFeedback(messages) {
+        if (messages.length === 0) {
+            feedbackBox.style.display = "none";
+            return;
+        }
+    
+        feedbackBox.innerHTML = messages.join("<br><br>");
+        feedbackBox.style.display = "block";
+    }
 
 
     function validateName(){
@@ -102,12 +113,13 @@
         allErrors = allErrors.concat(validateName());
         allErrors = allErrors.concat(validatePassword());
         allErrors = allErrors.concat(validateEmail());
+        showFeedback(allErrors);
 
         if (allErrors.length > 0) {
             feedbackBox.value = allErrors.join("\n");
             return false;
         } else {
-            feedbackBox.value = "✅ Signup successful! Redirecting...";
+            showFeedback([" Signup successful! Redirecting..."]); //" Signup successful! Redirecting...";
             
             // Simulate redirection after 2 seconds
             setTimeout(() => { window.location.href = "login.html"; }, 2000);
