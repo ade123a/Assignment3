@@ -19,7 +19,7 @@
     
     <main class="login">
         <h2>Signup</h2>
-        <form id="signupForm">
+        <form id="signupForm" onsubmit="return validateForm()">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
             
@@ -33,7 +33,7 @@
             <input type="email" id="email" name="email" required><br><br>
 
             <button class="signup-btn" type="submit" >Sign up</button><br>
-            
+        </form>
         
         <br>
             
@@ -41,19 +41,12 @@
     </main>
     <br>
     
-    </form> 
-    
     <textarea name="feedback" id="feedbackBox"></textarea>
 
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
 <script>
-    document.getElementById("signupForm").addEventListener("submit", function(event){
-        if (!validateForm()) {
-            event.preventDefault(); // Stop form submission if there are errors
-        }
-    });
 
     const feedbackBox = document.getElementById("feedbackBox");
     let errors = [];
@@ -71,8 +64,8 @@
         if (name.length < 3 || name.length > 20){
             errors.push("Invalid username. Username should be between 3 and 20 characters long.");
         }
-        if (!/^[a-zA-Z]/.test(name.charAt(0)))
         if (!/^[a-zA-Z]/.test(name.charAt(0))) {
+            errors.push("Invalid username. Username should start with a letter.");
         }
         return errors;
     }
@@ -100,9 +93,8 @@
         if (!regex.test(email)) {
             errors.push("Invalid email. Email should be in the format of <username>@<domain>.<tld>");
         }
-            return errors;
-        }
         return errors;
+    }
     
     function validateForm(){
         let allErrors = [];
@@ -115,13 +107,16 @@
             feedbackBox.value = allErrors.join("\n");
             return false;
         } else {
-            feedbackBox.value = " Signup successful! Redirecting...";
+            feedbackBox.value = "✅ Signup successful! Redirecting...";
+            
+            // Simulate redirection after 2 seconds
             setTimeout(() => { window.location.href = "login.html"; }, 2000);
-            return true;
+            return false; // Prevent form submission
         }
     }
 </script>
-
+</body>
+</html>
 
 </body>
 </html>
