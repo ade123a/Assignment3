@@ -137,12 +137,19 @@
     
             function moveToEnrolled(course) {
                 const enrolledSection = document.querySelector(".Enrolled .cv");
+    
+                // Change course image from pending to enrolled version
+                const courseImage = course.querySelector("img");
+                if (courseImage.src.includes("course2.jpg")) {
+                    courseImage.src = "course1.jpg";
+                }
+    
                 enrolledSection.appendChild(course);
                 course.querySelector(".accept").remove();
                 course.querySelector(".decline").remove();
             }
     
-            // Handle Hover Effect (Fixed)
+            // Handle Hover Effect (Ensuring it works)
             const courseTiles = document.querySelectorAll(".cv td div"); // Selects all course containers
             courseTiles.forEach((tile) => {
                 tile.addEventListener("mouseover", function () {
@@ -155,6 +162,7 @@
             });
         });
     </script>
+    
     
 </body>
 </html>
