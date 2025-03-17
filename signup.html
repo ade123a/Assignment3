@@ -18,8 +18,8 @@
     </div>
     
     <main class="login">
-        <h2>Signup</h2>
-        <form id="signupForm" onsubmit="return validateForm()" class="signup">
+        <h2>Sign Up</h2>
+        <form id="signupForm" class="signup">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
             
@@ -32,108 +32,94 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
 
-            <button class="signup-btn" type="submit" >Sign up</button><br>
+            <button class="signup-btn" type="submit">Sign Up</button><br>
         </form>
         
-        <br>
-            
-        
+        <!-- Feedback Box -->
+        <div id="feedbackBox" class="feedback"></div>
     </main>
-    <br>
-    
-    <div id="feedbackBox" class="feedback"></div>
 
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
-<script>
 
-    const feedbackBox = document.getElementById("feedbackBox");
-    let errors = [];
-    feedbackBox.innerHTML = errors.join("<br>");
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            validateForm();
+        });
 
+        function showFeedback(messages) {
+            const feedbackBox = document.getElementById("feedbackBox");
+            feedbackBox.innerHTML = messages.join("<br>");
+            feedbackBox.style.display = "block";
 
-    function showFeedback(messages) {
-        if (messages.length === 0) {
-            feedbackBox.style.display = "none";
-            return;
+            // Apply correct formatting (Black border, white background, simple text)
+            feedbackBox.style.border = "1px solid black";
+            feedbackBox.style.backgroundColor = "white";
+            feedbackBox.style.color = "black";
+            feedbackBox.style.padding = "10px";
+            feedbackBox.style.marginTop = "10px";
+            feedbackBox.style.textAlign = "center";
         }
-    
-        feedbackBox.innerHTML = messages.join("<br><br>");
-        feedbackBox.style.display = "block";
-    }
 
+        function validateUsername() {
+            let errors = [];
+            let username = document.getElementById("username").value.trim();
+            let regex = /^[a-zA-Z][a-zA-Z0-9-_]{2,19}$/;
 
-    function validateName(){
-        let errors = [];
-        var name = document.getElementById("username").value;
-        var regex = /^[a-zA-Z0-9-_]+$/;
-        if (!regex.test(name)){
-            errors.push("Invalid username. Username should only contain alphanumeric characters, underscores, and dashes.");
-            return false;
+            if (!regex.test(username)) {
+                errors.push("Invalid username (Reason: Must start with a letter, be 3-20 characters long, and only contain letters, numbers, hyphens, and underscores).");
+            }
+            return errors;
         }
-        if (name.length < 3 || name.length > 20){
-            errors.push("Invalid username. Username should be between 3 and 20 characters long.");
+
+        function validatePassword() {
+            let errors = [];
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm-password").value;
+
+            // Corrected regex allowing all specified special characters
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=\+\[\]{}|;:'",.<>?/`~])[A-Za-z\d!@#$%^&*()\-_=\+\[\]{}|;:'",.<>?/`~]{8,}$/;
+
+            if (!regex.test(password)) {
+                errors.push("Invalid password. Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            }
+            if (password !== confirm_password) {
+                errors.push("Passwords do not match.");
+            }
+            return errors;
         }
-        if (!/^[a-zA-Z]/.test(name.charAt(0))) {
-            errors.push("Invalid username. Username should start with a letter.");
+
+
+        function validateEmail() {
+            let errors = [];
+            let email = document.getElementById("email").value.trim();
+
+            // Updated regex to allow ANY domain extension (not just .com, .net, .io)
+            let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!regex.test(email)) {
+                errors.push("Invalid email (Reason: Must be in format username@example.com and contain a valid domain).");
+            }
+            return errors;
         }
-        return errors;
-    }
 
-    function validatePassword(){
-        let errors = [];
-        var password = document.getElementById("password").value;
-        var confirm_password = document.getElementById("confirm-password").value;
-         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*!])[A-Za-z\d@#$%&*!]{8,}$/;
-        if (!regex.test(password)) {
-           errors.push("Invalid password. Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
-        } 
-        if (password !== confirm_password){
-            errors.push("Invalid password. Passwords do not match.");
+        function validateForm() {
+            let allErrors = [];
+
+            allErrors = allErrors.concat(validateUsername());
+            allErrors = allErrors.concat(validatePassword());
+            allErrors = allErrors.concat(validateEmail());
+
+            if (allErrors.length > 0) {
+                showFeedback(allErrors);
+                return;
+            } else {
+                showFeedback(["Signup successful! Redirecting to login..."]);
+                setTimeout(() => { window.location.href = "login.html"; }, 2000);
+            }
         }
-        return errors;
-    }
-
-    function validateEmail(){
-        let errors = [];
-        var email = document.getElementById("email").value;
-
-        let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|io|org|edu)$/;
-
-        if (!regex.test(email)) {
-            errors.push("Invalid email. Email should be in the format of <username>@<domain>.<tld>");
-        }
-        return errors;
-    }
-    
-    function redirectToLogin() {
-        setTimeout(() => { window.location.href = "login.html"; }, 2000);
-    }
-
-    function validateForm(){
-        let allErrors = [];
-
-        allErrors = allErrors.concat(validateName());
-        allErrors = allErrors.concat(validatePassword());
-        allErrors = allErrors.concat(validateEmail());
-        showFeedback(allErrors);
-
-        if (allErrors.length > 0) {
-            feedbackBox.value = allErrors.join("\n");
-            return false;
-        } else {
-            showFeedback([" Signup successful! Redirecting..."]); 
-            
-            // Simulate redirection after 2 seconds
-            redirectToLogin();
-            return false; 
-        
-        }
-    }
-</script>
-</body>
-</html>
-
+    </script>
 </body>
 </html>
