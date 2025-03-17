@@ -19,7 +19,7 @@
     
     <main class="login">
         <h2>Signup</h2>
-        <form id="signupForm" onsubmit="return validateForm()">
+        <form id="signupForm" onsubmit="return validateForm()" class="signup">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
             
@@ -107,6 +107,10 @@
         return errors;
     }
     
+    function redirectToLogin() {
+        setTimeout(() => { window.location.href = "login.html"; }, 2000);
+    }
+
     function validateForm(){
         let allErrors = [];
 
@@ -119,11 +123,12 @@
             feedbackBox.value = allErrors.join("\n");
             return false;
         } else {
-            showFeedback([" Signup successful! Redirecting..."]); //" Signup successful! Redirecting...";
+            showFeedback([" Signup successful! Redirecting..."]); 
             
             // Simulate redirection after 2 seconds
-            setTimeout(() => { window.location.href = "login.html"; }, 2000);
-            return false; // Prevent form submission
+            redirectToLogin();
+            return false; 
+        
         }
     }
 </script>

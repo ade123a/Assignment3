@@ -57,7 +57,18 @@ main[class="login"], main[class="index"] {
 }
 
 /* Login Form */
-form {
+.signup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #d4d4d4;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 30px;
+    margin: 0px 150px 0px 150px;
+    max-width: 100%;
+}
+.loginform{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -290,6 +301,6 @@ footer {
     font-size: 16px;
     text-align: left;
     min-height: 50px;
-    display: none; /* Hidden by default */
+    display: none;
     text-align: center;
 }
