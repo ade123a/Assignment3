@@ -120,40 +120,41 @@
     <!-- ####################### Add JavaScript functionality to handle course enrollment, hover effects, and pending invitations ####################### -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Do course enrollment
+            // Course Enrollment Handling
             const pendingCourses = document.querySelectorAll(".Pending .cv td");
             pendingCourses.forEach((course) => {
                 const acceptBtn = course.querySelector(".accept");
                 const declineBtn = course.querySelector(".decline");
-
+    
                 acceptBtn.addEventListener("click", function () {
                     moveToEnrolled(course);
                 });
-
+    
                 declineBtn.addEventListener("click", function () {
                     course.remove(); // Remove course if declined
                 });
             });
-
+    
             function moveToEnrolled(course) {
                 const enrolledSection = document.querySelector(".Enrolled .cv");
                 enrolledSection.appendChild(course);
                 course.querySelector(".accept").remove();
                 course.querySelector(".decline").remove();
             }
-
-            // Handle Hover Effect
-            const courseTiles = document.querySelectorAll(".course-tile");
+    
+            // Handle Hover Effect (Fixed)
+            const courseTiles = document.querySelectorAll(".cv td div"); // Selects all course containers
             courseTiles.forEach((tile) => {
                 tile.addEventListener("mouseover", function () {
                     tile.style.backgroundColor = "#ffffff"; // Change on hover
                 });
-
+    
                 tile.addEventListener("mouseout", function () {
                     tile.style.backgroundColor = ""; // Reset background
                 });
             });
         });
     </script>
+    
 </body>
 </html>

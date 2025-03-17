@@ -35,7 +35,7 @@
             <button class="signup-btn" type="submit">Sign Up</button><br>
         </form>
         
-        <!-- Feedback Box -->
+        <!-- Messages Box -->
         <div id="feedbackBox" class="feedback"></div>
     </main>
 
@@ -54,7 +54,7 @@
             feedbackBox.innerHTML = messages.join("<br>");
             feedbackBox.style.display = "block";
 
-            // Apply correct formatting (Black border, white background, simple text)
+            // Messages box styling
             feedbackBox.style.border = "1px solid black";
             feedbackBox.style.backgroundColor = "white";
             feedbackBox.style.color = "black";
@@ -79,7 +79,7 @@
             var password = document.getElementById("password").value;
             var confirm_password = document.getElementById("confirm-password").value;
 
-            // Corrected regex allowing all specified special characters
+            // regex allowing special characters
             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=\+\[\]{}|;:'",.<>?/`~])[A-Za-z\d!@#$%^&*()\-_=\+\[\]{}|;:'",.<>?/`~]{8,}$/;
 
             if (!regex.test(password)) {
@@ -96,7 +96,7 @@
             let errors = [];
             let email = document.getElementById("email").value.trim();
 
-            // Updated regex to allow ANY domain extension (not just .com, .net, .io)
+            //  regex for domain extension 
             let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
             if (!regex.test(email)) {
