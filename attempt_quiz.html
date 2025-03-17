@@ -19,6 +19,10 @@
     </div>
     <main class="attemptquiz">
         <img src="banner.jpg" alt="Quiz Banner" style="width: 100%;">
+
+        <!-- Timer Display -->
+        <div id="quiz-timer" style="font-size: 24px; font-weight: bold; color: red; text-align: center; margin-top: 10px;"></div>
+
         <div class="quizdetails">
             <h2>Course Name: Web Development</h2>
             <h2>Course Code: WD381</h2>
@@ -26,46 +30,45 @@
             <p>Deadline: 11:59 PM, February 10, 2025</p>
             <p>Attempts Allowed: 1</p>
         </div>
-        
-        <h3>Question 1</h3>
-        <p>What does HTML stand for?</p>
-        <div class="Qs">
-            <input type="radio" id="q1a" name="q1" value="Hyper Text Markup Language">
-            <label for="q1a">Hyper Text Markup Language</label><br>
-            <input type="radio" id="q1b" name="q1" value="Home Tool Markup Language">
-            <label for="q1b">Home Tool Markup Language</label><br>
-        </div>
-        <br>
-        <button class="ans">Submit Answer</button>
-        
-        <h3>Question 2</h3>
-        <p>Which of the following are HTML elements? (Select all that apply)</p>
-        <div class="Qs">
-        <input type="checkbox" id="q2a" name="q2" value="<div>">
-        <label for="q2a">&lt;div&gt;</label><br>
-        <input type="checkbox" id="q2b" name="q2" value="<span>">
-        <label for="q2b">&lt;span&gt;</label><br>
-        </div>
-        <br>
-        <button class="ans">Submit Answer</button>
-        
+
+        <form id="quiz-form">
+            <h3>Question 1</h3>
+            <p>What does HTML stand for?</p>
+            <div class="Qs">
+                <label><input type="radio" name="q1" value="Hyper Text Markup Language"> Hyper Text Markup Language</label><br>
+                <label><input type="radio" name="q1" value="Home Tool Markup Language"> Home Tool Markup Language</label><br>
+            </div>
+            <br>
+            <button type="button" class="ans" id="submit-q1">Submit Answer</button>
+
+            <h3>Question 2</h3>
+            <p>Which of the following are HTML elements? (Select all that apply)</p>
+            <div class="Qs">
+                <label><input type="checkbox" name="q2" value="<div>"> &lt;div&gt;</label><br>
+                <label><input type="checkbox" name="q2" value="<span>"> &lt;span&gt;</label><br>
+            </div>
+            <br>
+            <button type="button" class="ans" id="submit-q2">Submit Answer</button>
+        </form>
+
+        <p id="quiz-result" style="font-size: 20px; font-weight: bold; color: green; text-align: center;"></p>
+
         <br><br>
-        <a href="leaderboard.html">
-            <button class="FinQz">Finish Quiz</button>
-        </a>
+        <button class="FinQz" id="finish-quiz">Finish Quiz</button>
     </main>
     <footer>
         <p>&copy; 2025 LMS. All rights reserved.</p>
     </footer>
 
-       <!-- ####################### JavaScript for Quiz Logic ####################### -->
-      <script>
+    <!-- JavaScript -->
+   
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Timer Logic
-            let timeLeft = 600; // 10 minutes in seconds
+            let timeLeft = 600;
             const timerElement = document.getElementById("quiz-timer");
             timerElement.textContent = formatTime(timeLeft);
-
+    
             const timer = setInterval(() => {
                 timeLeft--;
                 timerElement.textContent = formatTime(timeLeft);
@@ -75,56 +78,93 @@
                     window.location.href = "leaderboard.html";
                 }
             }, 1000);
-
+    
             function formatTime(seconds) {
                 const min = Math.floor(seconds / 60);
                 const sec = seconds % 60;
                 return `${min}:${sec < 10 ? '0' : ''}${sec}`;
             }
-
-            // Quiz Submission & Scoring Logic
-            document.getElementById("quiz-form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                
-                let score = 0;
-                let q1Answered = false;
-                let q2Answered = false;
-
-                // Validate Q1
-                const q1Options = document.getElementsByName("q1");
-                for (let option of q1Options) {
-                    if (option.checked) {
-                        q1Answered = true;
-                        if (option.value === "Hyper Text Markup Language") {
-                            score += 50;
-                        }
-                    }
-                }
-
-                // Validate Q2
-                const q2Options = document.getElementsByName("q2");
-                let correctSelections = 0;
-                for (let option of q2Options) {
-                    if (option.checked) {
-                        q2Answered = true;
-                        if (option.value === "div" || option.value === "span") {
-                            correctSelections++;
-                        }
-                    }
-                }
-                score += correctSelections * 25; // +25 per correct selection
-
-                // Check if both questions were answered
-                if (!q1Answered || !q2Answered) {
-                    alert("Please answer all questions before submitting.");
+    
+            let score = 0;
+            let q1Score = 0;
+            let q2Score = 0;
+            let q1Answered = false;
+            let q2Answered = false;
+    
+            // Q1 Submission (Resets and Recalculates)
+            document.getElementById("submit-q1").addEventListener("click", function () {
+                const q1 = document.querySelector("input[name='q1']:checked");
+                if (!q1) {
+                    alert("Please select an answer for Question 1 before submitting.");
                     return;
                 }
-
-                // Display final score
+    
+                // Reset previous Q1 score
+                score -= q1Score;
+                q1Score = 0;
+    
+                if (q1.value === "Hyper Text Markup Language") {
+                    q1Score = 50; // Correct answer gives 50 points
+                }
+    
+                score += q1Score;
+                q1Answered = true;
+                alert("Question 1 submitted!");
+            });
+    
+            // Q2 Submission (Resets and Recalculates)
+            document.getElementById("submit-q2").addEventListener("click", function () {
+                if (!q1Answered) {
+                    alert("You must answer and submit Question 1 before submitting Question 2.");
+                    return;
+                }
+    
+                const q2 = document.querySelectorAll("input[name='q2']:checked");
+    
+                if (q2.length === 0) {
+                    alert("Please select at least one answer for Question 2 before submitting.");
+                    return;
+                }
+    
+                // Reset previous Q2 score
+                score -= q2Score;
+                q2Score = 0;
+    
+                // Define correct answers
+                const correctAnswers = new Set(["<div>", "<span>"]);
+                const selectedAnswers = new Set(Array.from(q2).map(option => option.value));
+    
+                // If extra incorrect options are selected, give 0 points
+                if (selectedAnswers.size > correctAnswers.size) {
+                    q2Score = 0;
+                } else {
+                    selectedAnswers.forEach(answer => {
+                        if (correctAnswers.has(answer)) {
+                            q2Score += 25;
+                        }
+                    });
+                }
+    
+                score += q2Score;
+                q2Answered = true;
+    
+                // Display Final Score
                 document.getElementById("quiz-result").textContent = `Final Score: ${score}/100`;
+                alert("Final score displayed!");
+            });
+    
+            // Finish Quiz (Only Redirect if Both Questions Were Answered)
+            document.getElementById("finish-quiz").addEventListener("click", function () {
+                if (!q1Answered || !q2Answered) {
+                    alert("You must answer and submit all questions before finishing the quiz.");
+                    return;
+                }
+                window.location.href = "leaderboard.html";
             });
         });
     </script>
+    
 
+    
 </body>
 </html>
